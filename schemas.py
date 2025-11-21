@@ -12,7 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 # Example schemas (replace with your own):
 
@@ -37,6 +37,32 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+# Real estate property schema
+class Property(BaseModel):
+    """
+    Real estate properties for sale/rent
+    Collection name: "property"
+    """
+    title: str = Field(..., description="Listing title")
+    status: str = Field("sale", description="sale or rent")
+    price: int = Field(..., ge=0, description="Listing price in smallest currency (e.g., USD cents)")
+    currency: str = Field("USD", description="Currency code")
+    address: str = Field(..., description="Street address")
+    city: str = Field(..., description="City")
+    state: Optional[str] = Field(None, description="State/Region")
+    country: str = Field("USA", description="Country")
+    bedrooms: int = Field(..., ge=0)
+    bathrooms: float = Field(..., ge=0)
+    property_type: str = Field(..., description="house, condo, townhouse, land, etc.")
+    area_sqft: Optional[int] = Field(None, ge=0, description="Area in sqft")
+    lot_size_sqft: Optional[int] = Field(None, ge=0)
+    year_built: Optional[int] = None
+    parking_spaces: Optional[int] = Field(None, ge=0)
+    hoa_fee: Optional[int] = Field(None, ge=0, description="Monthly HOA fee in cents")
+    description: Optional[str] = None
+    images: List[str] = Field(default_factory=list)
+    features: List[str] = Field(default_factory=list)
 
 # Add your own schemas here:
 # --------------------------------------------------
